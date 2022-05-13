@@ -15,5 +15,21 @@ pip3 install -e src/
 
 ## Testing
 ```
+make up
+make test
+## or, to run individual test types
+make unit
+make e2e
+```
+#### or, if you have a local virtualenv
+```
+make up
 pytest tests/unit
+pytest tests/integration
+pytest tests/e2e
+```
+
+#### to see app logs from the container
+```
+make logs
 ```
