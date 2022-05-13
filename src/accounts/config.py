@@ -1,0 +1,9 @@
+import os
+
+def initialCustomerId():
+    return "customerid"
+
+def getApiUrl():
+    host = os.environ.get("API_HOST", "localhost")
+    port = 5005 if host == "localhost" else 80
+    return f"http://{host}:{port}"

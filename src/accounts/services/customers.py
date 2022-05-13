@@ -1,7 +1,11 @@
 from decimal import Decimal
-from typing import List
+from typing import List, Optional
 from accounts.domain import model, commands, queries, events, queries
 from accounts.repositories import customers, repository, transactions
+
+
+class InvalidAmount(Exception):
+    pass
 
 class Customers:
     def __init__(self,
@@ -12,7 +16,7 @@ class Customers:
 
     def openAccount(self, command: commands.OpenAccount) -> List[events.Event]:
         if command.initialCredit < 0:
-            raise Exception("Accoount cannot be open with negative credit")
+            raise InvalidAmount("Accoount cannot be open with negative credit")
 
         customer = self.customersRepo.get(command.customerId)
         acc = customer.openAccount(command.initialCredit)
@@ -23,8 +27,10 @@ class Customers:
         
         return [events.AccountOpened(customer.id, acc.id)]
 
-    def queryCustomerHistory(self, query: queries.CustomerHistory) -> queries.CustomerView:
+    def queryCustomerHistory(self, query: queries.CustomerHistory) -> Optional[queries.CustomerView]:
         customer = self.customersRepo.get(query.customerId)
+        if not customer:
+            return None
         balance = customer.calculateBalance()
         transactions = self.transactionsRepo.getByCustomer(customer.id)
 
