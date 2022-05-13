@@ -1,5 +1,10 @@
 # bh-accounts
-Managing financial accounts
+Managing financial accounts.
+The solution implements two endpoints:
+- POST /:customerId/open - to open a new account
+- GET /:customerId> - to get account details
+
+You can start the server locally by using docker compose. Chech the testing session below to see how. The server will be available at localhost:5005 for manual testing.
 
 ## Setup
 Optionally you can create virtual environment to host the project packages:
